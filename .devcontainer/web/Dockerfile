@@ -1,4 +1,4 @@
-From golang:latest
+FROM golang:latest
 
 RUN apt-get update && apt-get install -y
 WORKDIR /temp/work
