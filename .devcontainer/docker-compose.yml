@@ -7,7 +7,7 @@ services:
     container_name: go_app
     tty: true
     ports: 
-      - 8000:8000
+      - 8080:8080
     stdin_open: true
     volumes: 
       - ../web:/home/user1/dev

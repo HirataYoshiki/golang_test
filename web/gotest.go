@@ -1,36 +1,38 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
-type Member struct{
-  leader string
-  sub string
+
+type Document struct {
+  Title string `json:"Title"`
+  Desc string `json:"desc"`
+  Contents string `json:"contents"`
 }
 
-type Contents struct{
-  header string
-  content string
+type Documents []Document
+
+func homePage(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprintf(w, "HomePage EndPoint")
+}
+func allDocuments(w http.ResponseWriter, r *http.Request) {
+  documents := Documents{
+    Document{Title: "FMEA", Desc: "some description", Contents: "some contents"},
+    Document{Title: "D-FMEA", Desc: "some description", Contents: "some contents"},
+  }
+
+  json.NewEncoder(w).Encode(documents)
 }
 
-type Document struct{
-  name string
-  member Member
-  contents Contents
+func handleRequests() {
+  http.HandleFunc("/", homePage)
+  http.HandleFunc("/documents", allDocuments)
+  log.Fatal(http.ListenAndServe(":8080",nil))
 }
 
-func (d Document) dict() string{
-  return d.contents.content
-}
 func main() {
-  router := gin.Default()
-  var member = Member{"hirata","wada"}
-  var contents = Contents{"This is Test","testing is important."}
-  var doc = Document{"go-test",member,contents}
-  router.GET("/", func(c *gin.Context) {
-    c.String(http.StatusOK, doc.dict())
-  })
-  router.Run(":8080")
+  handleRequests()
 }
