@@ -3,8 +3,10 @@ version: '3'
 x-common:
   environment:
     &common-dbenv
+    MYSQL_ROOT_PASSWORD: root
     DBHOST: db
     DBPORT: 3306
+    DB: db
     MYSQLUSER: user
     MYSQLPASS: pass
 

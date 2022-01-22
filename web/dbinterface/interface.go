@@ -9,10 +9,10 @@ import (
 type clientResponse interface {}
 
 type resourceClient interface {
-	Search(string) (clientResponse, error)
-	GetAll() (clientResponse, error)
-	Get(string) (clientResponse, error)
-	Post(string) (clientResponse, error)
+	Search(table string, id string) (clientResponse, error)
+	GetAll(table string) (clientResponse, error)
+	Get(table string, id string) (clientResponse, error)
+	Post(table string) (clientResponse, error)
 	Update() (clientResponse, error)
 	Delete() (clientResponse, error)
 }
