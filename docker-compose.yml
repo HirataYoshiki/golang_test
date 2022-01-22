@@ -1,0 +1,32 @@
+version: '3'
+
+x-common:
+  environment:
+    &common-dbenv
+    DBHOST: db
+    DBPORT: 3306
+    MYSQLUSER: user
+    MYSQLPASS: pass
+
+services: 
+  web: 
+    image: go/test:1.0
+    build: .
+    container_name: go_webserver
+    tty: true
+    ports: 
+      - 8080:8080
+    stdin_open: true
+    environment:
+      <<: *common-dbenv
+    volumes: 
+      - ./web:/web
+
+  db:
+    image: mysql:5.7
+    container_name: golang_testdb
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports:
+      - "3306:3306"
+    environment:
+      <<: *common-dbenv
