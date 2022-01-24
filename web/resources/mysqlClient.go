@@ -4,7 +4,6 @@ import (
 	i "golang_test/dbinterface"
 	_ "github.com/go-sql-driver/mysql"
 	"database/sql"
-	"os"
 )
 
 type MySQLClient struct {

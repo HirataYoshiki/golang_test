@@ -5,25 +5,37 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-  // "golang_test/dbinterface"
+  "os"
+  "golang_test/dbinterface"
+  "golang_test/resources"
 )
 
-type Document struct {
-  Title string `json:"Title"`
-  Desc string `json:"desc"`
-  Contents string `json:"contents"`
-}
+mysql = resources.MySQLClient{
+          Host: os.Getenv("DBHOST"),
+          Port: os.Getenv("DBPORT"),
+          User: os.Getenv("MYSQLUSER"),
+          Pass: os.Getenv("MYSQLPASS"),
+          DB:   os.Getenv("DB"),
+        }
 
-type Documents []Document
+// type Document struct {
+//   Title string `json:"Title"`
+//   Desc string `json:"desc"`
+//   Contents string `json:"contents"`
+// }
+
+// type Documents []Document
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintf(w, "HomePage EndPoint")
-}
-func allDocuments(w http.ResponseWriter, r *http.Request) {
-  documents := Documents{
-    Document{Title: "FMEA", Desc: "some description", Contents: "some contents"},
-    Document{Title: "D-FMEA", Desc: "some description", Contents: "some contents"},
+  uri, err := mysql.getURI()
+  if err != nil {
+    fmt.Fprintf(w, "Error")
   }
+  fmt.Fprintf(w, uri)
+}
+
+func createAndRead(w http.ResponseWriter, r *http.Request) {
+  dbinterface.Post()
 
   json.NewEncoder(w).Encode(documents)
 }
